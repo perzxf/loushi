@@ -1,0 +1,34 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /
+
+  #\u6570\u636E\u6E90\u914D\u7F6E
+spring:
+  profiles:
+    active: dev    # dev:\u4F7F\u7528\u7684\u914D\u7F6E\u6587\u4EF6\u662F\u5F00\u53D1\u73AF\u5883\u7684
+
+#=====   MP settings =====#
+#Mapper路径
+# 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+# 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+mybatis-plus:
+  mapper-locations: /mapper/**/*Mapper.xml
+  #实体、枚举扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.ls.entity.**.*
+  #mybatis-plus.type-enums-package= com.zcf.entity.enums
+  #主键类型  0="数据库ID自增", 1="用户输入ID",2="全局唯一ID (数字类型唯一ID)", 3="全局唯一ID
+  global-config:
+    id-type: 0
+  #字段策略 0="忽略判断",1="非 NULL 判断"),2="非空判断"
+    field-strategy: 1
+  #驼峰下划线转换
+    db-column-underline: true
+  #刷新mapper 调试神器
+    refresh-mapper: true
+  #数据库大写下划线转换
+  #mybatis-plus.global-config.capital-mode= true
+  #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
