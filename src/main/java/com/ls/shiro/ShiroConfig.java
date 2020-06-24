@@ -70,7 +70,7 @@ public class ShiroConfig {
 //        map.put("/user/findPassword.html","anon");  //
 //        map.put("/user/register","anon");   //注册方法
         map.put("/user/login","anon");     //登录方法
-//        map.put("/user/sendEmail","anon");
+        map.put("/user/sendEmail","anon");
 //        map.put("/user/checkYzm","anon");
 
         map.put("/admin/login.html","anon"); //后台登录页面

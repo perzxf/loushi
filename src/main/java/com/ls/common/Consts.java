@@ -25,5 +25,10 @@ public class Consts {
      */
     public static final String CURRENT_USER = "currentUser";
 
+    /**
+     * 重置密码
+     */
+    public static final String RESET_PASSWORD = "000000";
+
 
 }

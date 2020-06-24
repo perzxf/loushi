@@ -5,6 +5,7 @@ import com.ls.entity.system.SysMenu;
 import com.ls.entity.system.SysUser;
 import com.ls.service.system.SysMenuService;
 import com.ls.service.system.SysUserService;
+import com.ls.utils.EmailUtil;
 import com.ls.utils.Md5Util;
 import com.ls.utils.StringUtil;
 import org.apache.shiro.SecurityUtils;
@@ -33,6 +34,8 @@ public class LoginController {
 
     @Autowired
     private SysUserService userService;
+    @Autowired
+    EmailUtil emailUtil;
 
 
     /**
@@ -75,5 +78,37 @@ public class LoginController {
         return map;
     }
 
+    /**
+     * 发送邮件
+     */
+    @ResponseBody
+    @PostMapping("/user/sendEmail")
+    public Map<String,Object> sendEmail(String email, HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        if(StringUtil.isEmpty(email)){
+            map.put("success",false);
+            map.put("errorInfo","邮箱不能为空！");
+            return map;
+        }
+        //验证邮件是否存在
+        SysUser byEmail = userService.findByEmail(email);
+        if(byEmail==null){
+            map.put("success",false);
+            map.put("errorInfo","邮箱不存在！");
+            return map;
+        }
+        //发邮件
+        String project = "V楼市，舆情监控平台-用户重置密码";
+        String content = "您重置的密码是：" + Consts.RESET_PASSWORD ;
+        emailUtil.sendMail(email,project,content);
 
+        //修改数据库中的密码  给用户重置密码为000000
+        Long userId = byEmail.getUserId();
+        String password = Md5Util.md5(Consts.RESET_PASSWORD, Consts.SALT);
+        userService.updateByPassword(userId,password);
+
+
+        map.put("success",true);
+        return map;
+    }
 }

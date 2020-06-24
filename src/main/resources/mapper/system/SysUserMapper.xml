@@ -5,5 +5,9 @@
 <mapper namespace="com.ls.mapper.system.SysUserMapper">
 
 
-
+    <update id="updateByPassword" parameterType="com.ls.entity.system.SysUser">
+        update sys_user set
+            password = #{password}
+        where user_id = #{userId}
+    </update>
 </mapper>

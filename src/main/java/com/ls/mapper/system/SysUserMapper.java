@@ -9,5 +9,5 @@ import com.ls.entity.system.SysUser;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
 
-
+    void updateByPassword(SysUser user);
 }

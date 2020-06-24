@@ -1,5 +1,6 @@
 package com.ls.entity.system;
 
+
 import java.util.Date;
 
 /**

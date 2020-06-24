@@ -90,6 +90,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return baseMapper.selectCount(wrapper);
     }
 
+    @Override
+    public void updateByPassword(Long userId, String password) {
+        SysUser user = new SysUser();
+        user.setUserId(userId);
+        user.setPassword(password);
+        baseMapper.updateByPassword(user);
+    }
+
 
     /**
      * 创建用户基本情况

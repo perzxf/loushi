@@ -39,6 +39,9 @@
 		<script src="/assets/js/html5shiv.js"></script>
 		<script src="/assets/js/respond.min.js"></script>
 		<![endif]-->
+
+		<link rel="stylesheet" href="/assets/layui/css/layui.css"/>
+
 	</head>
 
 	<body class="login-layout">
@@ -159,13 +162,13 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="email" class="form-control" placeholder="Email" />
+															<input type="email" class="form-control" id="email" name="email" placeholder="Email" />
 															<i class="icon-envelope"></i>
 														</span>
 													</label>
 
 													<div class="clearfix">
-														<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+														<button type="button" id="sendMail" class="width-35 pull-right btn btn-sm btn-danger">
 															<i class="icon-lightbulb"></i>
 															发送
 														</button>
@@ -317,6 +320,10 @@
 			}
 		</script>
 	</body>
+
+	<script src="/assets/layui/layui.js"></script>
+	<script src="/assets/layui/layui.all.js"></script>
+
 	<script type="text/javascript">
 		//登录事件
 		$("#login").on('click',function () {
@@ -341,6 +348,39 @@
 					alert("连接超时，请稍后重试！");
 				}
 			})
+		});
+
+		//找回密码 发送邮件
+		$("#sendMail").on('click',function () {
+			//获取邮箱号
+			const email = $("#email").val();
+
+			$("#sendMail").attr({"disabled":"disabled"});
+			layer.msg("请稍等！");
+
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "/user/sendEmail" ,
+				data: {email:email},
+				success: function (result) {
+					if(result.success){
+						layer.msg("密码已重置已且发送到您的邮箱，请注意查收，假如长时间没收到邮件，请联系管理员！",{
+							icon: 1,
+							time: 5000
+						},function () {
+							$("#email").focus();
+						});
+					}else{
+						layer.msg(result.erroInfo,{
+							icon: 5,
+							time: 5000
+						},function () {
+							$("#sendMail").remove("disabled");
+						});
+					}
+				}
+			});
 		});
 	</script>
 </html>
